@@ -26,7 +26,6 @@ SECTOR_SIZE = 5  # number of blocks per sector
 
 
 class Block:
-
     SIZE = 10  # number of tiles per block
 
     def __init__(self, block_type, tiles):
@@ -44,6 +43,7 @@ class Block:
 
     @classmethod
     def generate(cls):
+        print('Generating random block...')
         tiles = []
         for row in range(cls.SIZE):
             r = []
@@ -64,19 +64,12 @@ class Sector:
             s += str(block)
         return s
 
-
-def generate_sector():
-    return [random.choice(list(BlockType)) for _ in range(SECTOR_SIZE)]
-
-
-sector = generate_sector()
-
-# block objects
-blocks = []
-
-for block_type in generate_sector():
-    block = Block.generate()
-    blocks.append(block)
+    @classmethod
+    def generate(cls):
+        print('Generating random sector...')
+        blocks = [Block.generate() for _ in range(SECTOR_SIZE)]
+        return Sector(blocks)
 
 
-print(Sector(blocks))
+sector = Sector.generate()
+print(sector)
