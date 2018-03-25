@@ -1,16 +1,22 @@
 import random
 
 from enum import Enum
+from chimera.colors import str_aec
 
 
 class TileType(Enum):
-    GRASS = ('.',)
-    ROCK = ('@',)
-    TREE = ('A',)
-    WATER = ('~',)
+    GRASS = ('.', 'green')
+    ROCK = ('@', 'red')
+    TREE = ('A', 'blue')
+    WATER = ('~', 'yellow')
 
-    def __init__(self, texture):
+    def __init__(self, texture, color):
         self.texture = texture
+        self.color = color
+
+    @property
+    def sprite(self):
+        return str_aec(self.texture, self.color)
 
 
 class BlockType(Enum):
@@ -40,7 +46,7 @@ class Block:
         s = 'Block type: ' + self.block_type.display_name + '\n\n'
         for row in self.tiles:
             for tile in row:
-                s += str(tile.texture)
+                s += str(tile.sprite)
             s += '\n'
         s += '\n'
         return s
