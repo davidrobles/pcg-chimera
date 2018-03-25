@@ -3,15 +3,6 @@ import random
 from enum import Enum
 
 
-class BlockType(Enum):
-    FOREST = ('Forest',)
-    TOWN = ('Town',)
-    MOUNTAIN = ('Mountain',)
-
-    def __init__(self, display_name):
-        self.display_name = display_name
-
-
 class TileType(Enum):
     GRASS = ('.',)
     ROCK = ('@',)
@@ -20,6 +11,19 @@ class TileType(Enum):
 
     def __init__(self, texture):
         self.texture = texture
+
+
+class BlockType(Enum):
+    FOREST = ('Forest', (TileType.GRASS, TileType.ROCK, TileType.TREE))
+    TOWN = ('Town', (TileType.GRASS, TileType.TREE))
+    MOUNTAIN = ('Mountain', (TileType.GRASS, TileType.ROCK, TileType.WATER))
+
+    def __init__(self, display_name, tile_whitelist):
+        self.display_name = display_name
+        self.tile_whitelist = tile_whitelist
+
+    def generate_tile(self):
+        return random.choice(self.tile_whitelist)
 
 
 SECTOR_SIZE = 5  # number of blocks per sector
@@ -44,14 +48,14 @@ class Block:
     @classmethod
     def generate(cls):
         print('Generating random block...')
+        block_type = random.choice(list(BlockType))
         tiles = []
         for row in range(cls.SIZE):
             r = []
             for col in range(cls.SIZE):
-                r.append(random.choice(list(TileType)))
+                r.append(block_type.generate_tile())
             tiles.append(r)
-        random_block_type = random.choice(list(BlockType))
-        return Block(block_type=random_block_type, tiles=tiles)
+        return Block(block_type=block_type, tiles=tiles)
 
 
 class Sector:
