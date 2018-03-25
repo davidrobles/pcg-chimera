@@ -69,7 +69,7 @@ class Block:
 
 
 class Sector:
-    SIZE = 3  # number of blocks per sector
+    SIZE = (3, 5)  # number of blocks per sector
 
     def __init__(self, blocks):
         self.blocks = blocks
@@ -94,9 +94,9 @@ class Sector:
     def generate(cls):
         print('Generating random sector...')
         blocks = []
-        for row in range(Sector.SIZE):
+        for row in range(Sector.SIZE[0]):
             r = []
-            for col in range(Sector.SIZE):
+            for col in range(Sector.SIZE[1]):
                 r.append(Block.generate())
             blocks.append(r)
         return Sector(blocks)
