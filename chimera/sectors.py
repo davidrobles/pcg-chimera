@@ -35,7 +35,7 @@ class Block:
 
     def __str__(self):
         s = 'Block type: ' + self.block_type.display_name + '\n\n'
-        for row in tiles:
+        for row in self.tiles:
             for tile in row:
                 s += str(tile.texture)
             s += '\n'
@@ -50,7 +50,8 @@ class Block:
             for col in range(cls.SIZE):
                 r.append(random.choice(list(TileType)))
             tiles.append(r)
-        return tiles
+        random_block_type = random.choice(list(BlockType))
+        return Block(block_type=random_block_type, tiles=tiles)
 
 
 class Sector:
@@ -74,8 +75,7 @@ sector = generate_sector()
 blocks = []
 
 for block_type in generate_sector():
-    tiles = Block.generate() # pasar block_id
-    block = Block(block_type=block_type, tiles=tiles)
+    block = Block.generate()
     blocks.append(block)
 
 
