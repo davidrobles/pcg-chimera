@@ -51,13 +51,6 @@ def generate_block():
     return map
 
 
-def print_block(block):
-    for row in block:
-        for col in row:
-            print(col, end='')
-        print("")
-
-
 sector = generate_sector()
 
 # block objects
