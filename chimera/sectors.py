@@ -32,7 +32,7 @@ class BlockType(Enum):
         return random.choice(self.tile_whitelist)
 
 
-SECTOR_SIZE = 6  # number of blocks per sector
+SECTOR_SIZE = 3  # number of blocks per sector
 
 
 class Block:
@@ -71,19 +71,27 @@ class Sector:
     def __init__(self, blocks):
         self.blocks = blocks
 
-    def __str__(self):
+    def get_sector_row(self, sector_row):
         s = ''
-        for block_row in range(len(self.blocks[0].tiles)):
+        for block_row in range(Block.SIZE):
             line = ''
-            for block in self.blocks:
+            for block in self.blocks[sector_row]:
                 line += block.get_row(block_row) + '    '
             s += line + '\n'
         return s
 
+    def __str__(self):
+        return '\n\n'.join([self.get_sector_row(sector_row) for sector_row in range(SECTOR_SIZE)])
+
     @classmethod
     def generate(cls):
         print('Generating random sector...')
-        blocks = [Block.generate() for _ in range(SECTOR_SIZE)]
+        blocks = []
+        for row in range(SECTOR_SIZE):
+            r = []
+            for col in range(SECTOR_SIZE):
+                r.append(Block.generate())
+            blocks.append(r)
         return Sector(blocks)
 
 
