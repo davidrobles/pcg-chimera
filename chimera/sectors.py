@@ -80,8 +80,12 @@ class Sector:
             s += line + '\n'
         return s
 
+    @property
+    def size(self):
+        return len(self.blocks)
+
     def __str__(self):
-        return '\n\n'.join([self.get_sector_row(sector_row) for sector_row in range(SECTOR_SIZE)])
+        return '\n\n'.join([self.get_sector_row(sector_row) for sector_row in range(self.size)])
 
     @classmethod
     def generate(cls):
