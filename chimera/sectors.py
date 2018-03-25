@@ -32,21 +32,24 @@ class BlockType(Enum):
         return random.choice(self.tile_whitelist)
 
 
-SECTOR_SIZE = 5  # number of blocks per sector
+SECTOR_SIZE = 3  # number of blocks per sector
 
 
 class Block:
-    SIZE = 20  # number of tiles per block
+    SIZE = 10  # number of tiles per block
 
     def __init__(self, block_type, tiles):
         self.block_type = block_type
         self.tiles = tiles
 
+    def get_row(self, row):
+        """Returns a row as a string"""
+        return ''.join([t.sprite for t in self.tiles[row]])
+
     def __str__(self):
         s = 'Block type: ' + self.block_type.display_name + '\n\n'
-        for row in self.tiles:
-            for tile in row:
-                s += str(tile.sprite) + ' '
+        for row in range(len(self.tiles)):
+            s += self.get_row(row)
             s += '\n'
         s += '\n'
         return s
