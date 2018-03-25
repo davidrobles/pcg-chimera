@@ -2,7 +2,7 @@ import random
 
 SECTOR_SIZE = 5  # number of blocks per sector
 
-BLOCK_SIZE = 10  # number of tiles per block
+
 
 BLOCK_TYPES = ['forest', 'town', 'mountain']
 
@@ -10,6 +10,8 @@ TILE_TYPES = ['walkable', 'non-walkable', 'water']
 
 
 class Block:
+
+    SIZE = 10  # number of tiles per block
 
     def __init__(self, block_type, tiles):
         self.block_type = block_type
@@ -23,6 +25,16 @@ class Block:
             s += '\n'
         s += '\n'
         return s
+
+    @classmethod
+    def generate(cls):
+        map = []
+        for row in range(cls.SIZE):
+            r = []
+            for col in range(cls.SIZE):
+                r.append(random.randrange(len(TILE_TYPES)))
+            map.append(r)
+        return map
 
 
 class Sector:
@@ -40,23 +52,13 @@ def generate_sector():
     return [random.randrange(len(BLOCK_TYPES)) for _ in range(SECTOR_SIZE)]
 
 
-def generate_block():
-    map = []
-    for row in range(BLOCK_SIZE):
-        r = []
-        for col in range(BLOCK_SIZE):
-            r.append(random.randrange(len(TILE_TYPES)))
-        map.append(r)
-    return map
-
-
 sector = generate_sector()
 
 # block objects
 blocks = []
 
 for block_id in generate_sector():
-    tiles = generate_block() # pasar block_id
+    tiles = Block.generate() # pasar block_id
     block = Block(block_type=BLOCK_TYPES[block_id], tiles=tiles)
     blocks.append(block)
 
