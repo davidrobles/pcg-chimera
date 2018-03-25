@@ -72,11 +72,14 @@ class Block:
         print('Generating random block...')
         block_type = random.choice(list(BlockType))
         tiles = []
+
+        def is_border(row, col):
+            return row == 0 or row == cls.SIZE[0] - 1 or col == 0 or col == cls.SIZE[1] - 1
+
         for row in range(cls.SIZE[0]):
             r = []
             for col in range(cls.SIZE[1]):
-                # is border?
-                if row == 0 or row == cls.SIZE[0] - 1 or col == 0 or col == cls.SIZE[1] - 1:
+                if is_border(row, col):
                     r.append(block_type.generate_blocking_tile())
                 else:
                     r.append(block_type.generate_tile())
