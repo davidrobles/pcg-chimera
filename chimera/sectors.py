@@ -48,11 +48,15 @@ class Block:
 
     def __str__(self):
         s = 'Block type: ' + self.block_type.display_name + '\n\n'
-        for row in range(len(self.tiles)):
+        for row in range(self.size):
             s += self.get_row(row)
             s += '\n'
         s += '\n'
         return s
+
+    @property
+    def size(self):
+        return len(self.tiles)
 
     @classmethod
     def generate(cls):
