@@ -1,0 +1,10 @@
+__pycache__
+.idea/
+*.pyc
+.venv/
+db.sqlite3
+.env
+.DS_Store
+node_modules
+package-lock.json
+.virtualenv/
