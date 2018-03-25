@@ -33,7 +33,7 @@ class BlockType(Enum):
 
 
 class Block:
-    SIZE = (10, 10)  # number of tiles per block
+    SIZE = (15, 15)  # number of tiles per block
 
     def __init__(self, block_type, tiles):
         self.block_type = block_type
@@ -88,7 +88,7 @@ class Sector:
         for block_row in range(self.blocks[0][0].n_rows):
             line = ''
             for block in self.blocks[sector_row]:
-                line += block.get_row(block_row) + '    '
+                line += block.get_row(block_row) + '   '
             s += line + '\n'
         return s
 
@@ -105,7 +105,7 @@ class Sector:
         return self.size[1]
 
     def __str__(self):
-        return '\n\n'.join([self.get_sector_row(sector_row) for sector_row in range(self.n_rows)])
+        return '\n'.join([self.get_sector_row(sector_row) for sector_row in range(self.n_rows)])
 
     @classmethod
     def generate(cls):
