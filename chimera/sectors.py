@@ -44,7 +44,7 @@ class Block:
 
     def get_row(self, row):
         """Returns a row as a string"""
-        return ''.join([t.sprite for t in self.tiles[row]])
+        return ' '.join([t.sprite for t in self.tiles[row]])
 
     def __str__(self):
         s = 'Block type: ' + self.block_type.display_name + '\n\n'
@@ -73,7 +73,7 @@ class Sector:
 
     def __str__(self):
         s = ''
-        for block_row in range(Block.SIZE):
+        for block_row in range(len(self.blocks[0].tiles)):
             line = ''
             for block in self.blocks:
                 line += block.get_row(block_row) + '    '
