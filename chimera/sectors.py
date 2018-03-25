@@ -59,10 +59,7 @@ class Sector:
         self.blocks = blocks
 
     def __str__(self):
-        s = ''
-        for block in self.blocks:
-            s += str(block)
-        return s
+        return ''.join([str(block) for block in self.blocks])
 
     @classmethod
     def generate(cls):
