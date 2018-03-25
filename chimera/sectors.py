@@ -36,7 +36,7 @@ SECTOR_SIZE = 5  # number of blocks per sector
 
 
 class Block:
-    SIZE = 10  # number of tiles per block
+    SIZE = 20  # number of tiles per block
 
     def __init__(self, block_type, tiles):
         self.block_type = block_type
