@@ -33,7 +33,7 @@ class BlockType(Enum):
 
 
 class Block:
-    SIZE = 10  # number of tiles per block
+    SIZE = (10, 10)  # number of tiles per block
 
     def __init__(self, block_type, tiles):
         self.block_type = block_type
@@ -45,7 +45,7 @@ class Block:
 
     def __str__(self):
         s = 'Block type: ' + self.block_type.display_name + '\n\n'
-        for row in range(self.size):
+        for row in range(self.n_rows):
             s += self.get_row(row)
             s += '\n'
         s += '\n'
@@ -53,16 +53,24 @@ class Block:
 
     @property
     def size(self):
-        return len(self.tiles)
+        return len(self.tiles), len(self.tiles[0])
+
+    @property
+    def n_rows(self):
+        return self.size[0]
+
+    @property
+    def n_cols(self):
+        return self.size[1]
 
     @classmethod
     def generate(cls):
         print('Generating random block...')
         block_type = random.choice(list(BlockType))
         tiles = []
-        for row in range(cls.SIZE):
+        for row in range(cls.SIZE[0]):
             r = []
-            for col in range(cls.SIZE):
+            for col in range(cls.SIZE[1]):
                 r.append(block_type.generate_tile())
             tiles.append(r)
         return Block(block_type=block_type, tiles=tiles)
@@ -76,7 +84,8 @@ class Sector:
 
     def get_sector_row(self, sector_row):
         s = ''
-        for block_row in range(Block.SIZE):
+        a = self.blocks[0]
+        for block_row in range(self.blocks[0][0].n_rows):
             line = ''
             for block in self.blocks[sector_row]:
                 line += block.get_row(block_row) + '    '
