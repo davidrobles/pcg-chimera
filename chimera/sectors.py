@@ -32,9 +32,6 @@ class BlockType(Enum):
         return random.choice(self.tile_whitelist)
 
 
-SECTOR_SIZE = 3  # number of blocks per sector
-
-
 class Block:
     SIZE = 10  # number of tiles per block
 
@@ -72,6 +69,8 @@ class Block:
 
 
 class Sector:
+    SIZE = 3  # number of blocks per sector
+
     def __init__(self, blocks):
         self.blocks = blocks
 
@@ -95,9 +94,9 @@ class Sector:
     def generate(cls):
         print('Generating random sector...')
         blocks = []
-        for row in range(SECTOR_SIZE):
+        for row in range(Sector.SIZE):
             r = []
-            for col in range(SECTOR_SIZE):
+            for col in range(Sector.SIZE):
                 r.append(Block.generate())
             blocks.append(r)
         return Sector(blocks)
