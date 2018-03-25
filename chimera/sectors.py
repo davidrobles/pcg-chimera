@@ -85,10 +85,18 @@ class Sector:
 
     @property
     def size(self):
-        return len(self.blocks)
+        return len(self.blocks), len(self.blocks[0])
+
+    @property
+    def n_rows(self):
+        return self.size[0]
+
+    @property
+    def n_cols(self):
+        return self.size[1]
 
     def __str__(self):
-        return '\n\n'.join([self.get_sector_row(sector_row) for sector_row in range(self.size)])
+        return '\n\n'.join([self.get_sector_row(sector_row) for sector_row in range(self.n_rows)])
 
     @classmethod
     def generate(cls):
