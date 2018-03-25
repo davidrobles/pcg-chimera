@@ -5,14 +5,15 @@ from chimera.colors import str_aec
 
 
 class TileType(Enum):
-    GRASS = ('.', 'green')
-    ROCK = ('@', 'light_gray')
-    TREE = ('A', 'bold_green')
-    WATER = ('~', 'bold_blue')
+    GRASS = ('.', 'green', True)
+    ROCK = ('@', 'light_gray', False)
+    TREE = ('A', 'bold_green', False)
+    WATER = ('~', 'bold_blue', False)
 
-    def __init__(self, texture, color):
+    def __init__(self, texture, color, walkable):
         self.texture = texture
         self.color = color
+        self.walkable = walkable
 
     @property
     def sprite(self):
@@ -30,6 +31,9 @@ class BlockType(Enum):
 
     def generate_tile(self):
         return random.choice(self.tile_whitelist)
+
+    def generate_blocking_tile(self):
+        return random.choice([tile for tile in self.tile_whitelist if not tile.walkable])
 
 
 class Block:
@@ -71,7 +75,11 @@ class Block:
         for row in range(cls.SIZE[0]):
             r = []
             for col in range(cls.SIZE[1]):
-                r.append(block_type.generate_tile())
+                # is border?
+                if row == 0 or row == cls.SIZE[0] - 1 or col == 0 or col == cls.SIZE[1] - 1:
+                    r.append(block_type.generate_blocking_tile())
+                else:
+                    r.append(block_type.generate_tile())
             tiles.append(r)
         return Block(block_type=block_type, tiles=tiles)
 
