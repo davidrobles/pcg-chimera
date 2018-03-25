@@ -11,9 +11,8 @@ TILE_TYPES = ['walkable', 'non-walkable', 'water']
 
 class Block:
 
-    def __init__(self, block_type, size, tiles):
+    def __init__(self, block_type, tiles):
         self.block_type = block_type
-        self.size = size
         self.tiles = tiles
 
     def __str__(self):
@@ -58,7 +57,7 @@ blocks = []
 
 for block_id in generate_sector():
     tiles = generate_block() # pasar block_id
-    block = Block(block_type=BLOCK_TYPES[block_id], size=BLOCK_SIZE, tiles=tiles)
+    block = Block(block_type=BLOCK_TYPES[block_id], tiles=tiles)
     blocks.append(block)
 
 
