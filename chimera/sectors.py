@@ -4,9 +4,12 @@ from enum import Enum
 
 
 class BlockType(Enum):
-    FOREST = 1
-    TOWN = 2
-    MOUNTAIN = 3
+    FOREST = ('Forest',)
+    TOWN = ('Town',)
+    MOUNTAIN = ('Mountain',)
+
+    def __init__(self, display_name):
+        self.display_name = display_name
 
 
 class TileType(Enum):
@@ -31,7 +34,7 @@ class Block:
         self.tiles = tiles
 
     def __str__(self):
-        s = 'block type: ' + str(self.block_type) + '\n\n'
+        s = 'Block type: ' + self.block_type.display_name + '\n\n'
         for row in tiles:
             for tile in row:
                 s += str(tile.texture)
