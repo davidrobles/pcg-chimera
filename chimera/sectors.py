@@ -9,6 +9,34 @@ BLOCK_TYPES = ['forest', 'town', 'mountain']
 TILE_TYPES = ['walkable', 'non-walkable', 'water']
 
 
+class Block:
+
+    def __init__(self, block_type, size, tiles):
+        self.block_type = block_type
+        self.size = size
+        self.tiles = tiles
+
+    def __str__(self):
+        s = 'block type: ' + self.block_type + '\n\n'
+        for row in tiles:
+            for col in row:
+                s += str(col)
+            s += '\n'
+        s += '\n'
+        return s
+
+
+class Sector:
+    def __init__(self, blocks):
+        self.blocks = blocks
+
+    def __str__(self):
+        s = ''
+        for block in self.blocks:
+            s += str(block)
+        return s
+
+
 def generate_sector():
     return [random.randrange(len(BLOCK_TYPES)) for _ in range(SECTOR_SIZE)]
 
@@ -32,12 +60,13 @@ def print_block(block):
 
 sector = generate_sector()
 
-# print([BLOCK_TYPES[i] for i in generate_sector()])
-
+# block objects
+blocks = []
 
 for block_id in generate_sector():
-    block = generate_block() # pasar block_id
-    print("Block name: ", BLOCK_TYPES[block_id])
-    print()
-    print_block(block)
-    print()
+    tiles = generate_block() # pasar block_id
+    block = Block(block_type=BLOCK_TYPES[block_id], size=BLOCK_SIZE, tiles=tiles)
+    blocks.append(block)
+
+
+print(Sector(blocks))
