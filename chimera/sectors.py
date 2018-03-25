@@ -9,10 +9,17 @@ class BlockType(Enum):
     MOUNTAIN = 3
 
 
+class TileType(Enum):
+    GRASS = ('.',)
+    ROCK = ('@',)
+    TREE = ('A',)
+    WATER = ('~',)
+
+    def __init__(self, texture):
+        self.texture = texture
+
+
 SECTOR_SIZE = 5  # number of blocks per sector
-
-
-TILE_TYPES = ['walkable', 'non-walkable', 'water']
 
 
 class Block:
@@ -26,8 +33,8 @@ class Block:
     def __str__(self):
         s = 'block type: ' + str(self.block_type) + '\n\n'
         for row in tiles:
-            for col in row:
-                s += str(col)
+            for tile in row:
+                s += str(tile.texture)
             s += '\n'
         s += '\n'
         return s
@@ -38,7 +45,7 @@ class Block:
         for row in range(cls.SIZE):
             r = []
             for col in range(cls.SIZE):
-                r.append(random.randrange(len(TILE_TYPES)))
+                r.append(random.choice(list(TileType)))
             tiles.append(r)
         return tiles
 
