@@ -28,13 +28,13 @@ class Block:
 
     @classmethod
     def generate(cls):
-        map = []
+        tiles = []
         for row in range(cls.SIZE):
             r = []
             for col in range(cls.SIZE):
                 r.append(random.randrange(len(TILE_TYPES)))
-            map.append(r)
-        return map
+            tiles.append(r)
+        return tiles
 
 
 class Sector:
