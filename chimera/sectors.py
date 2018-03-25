@@ -1,10 +1,16 @@
 import random
 
+from enum import Enum
+
+
+class BlockType(Enum):
+    FOREST = 1
+    TOWN = 2
+    MOUNTAIN = 3
+
+
 SECTOR_SIZE = 5  # number of blocks per sector
 
-
-
-BLOCK_TYPES = ['forest', 'town', 'mountain']
 
 TILE_TYPES = ['walkable', 'non-walkable', 'water']
 
@@ -18,7 +24,7 @@ class Block:
         self.tiles = tiles
 
     def __str__(self):
-        s = 'block type: ' + self.block_type + '\n\n'
+        s = 'block type: ' + str(self.block_type) + '\n\n'
         for row in tiles:
             for col in row:
                 s += str(col)
@@ -49,7 +55,7 @@ class Sector:
 
 
 def generate_sector():
-    return [random.randrange(len(BLOCK_TYPES)) for _ in range(SECTOR_SIZE)]
+    return [random.choice(list(BlockType)) for _ in range(SECTOR_SIZE)]
 
 
 sector = generate_sector()
@@ -57,9 +63,9 @@ sector = generate_sector()
 # block objects
 blocks = []
 
-for block_id in generate_sector():
+for block_type in generate_sector():
     tiles = Block.generate() # pasar block_id
-    block = Block(block_type=BLOCK_TYPES[block_id], tiles=tiles)
+    block = Block(block_type=block_type, tiles=tiles)
     blocks.append(block)
 
 
