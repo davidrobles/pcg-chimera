@@ -6,9 +6,9 @@ from chimera.colors import str_aec
 
 class TileType(Enum):
     GRASS = ('.', 'green')
-    ROCK = ('@', 'red')
-    TREE = ('A', 'blue')
-    WATER = ('~', 'yellow')
+    ROCK = ('@', 'light_gray')
+    TREE = ('A', 'bold_green')
+    WATER = ('~', 'bold_blue')
 
     def __init__(self, texture, color):
         self.texture = texture
