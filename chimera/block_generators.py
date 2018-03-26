@@ -36,13 +36,11 @@ class ProbabilisticGridBlockGenerator(BlockGenerator):
             return row == 0 or row == self.dims[0] - 1 or col == 0 or col == self.dims[1] - 1
 
         for row in range(self.dims[0]):
-            r = []
+            tiles_row = []
             for col in range(self.dims[1]):
-                if is_border(row, col):
-                    r.append(block_type.generate_blocking_tile())
-                else:
-                    r.append(self.get_tile(self.probs[block_type]))
-            tiles.append(r)
+                tile = block_type.generate_blocking_tile() if is_border(row, col) else self.get_tile(self.probs[block_type])
+                tiles_row.append(tile)
+            tiles.append(tiles_row)
         return Block(block_type=block_type, tiles=tiles)
 
 
