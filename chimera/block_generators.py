@@ -2,6 +2,7 @@ import random
 from abc import ABC, abstractmethod
 
 from chimera.block import Block
+from chimera.utils import validate_probs
 
 
 class BlockGenerator(ABC):
@@ -15,6 +16,7 @@ class ProbabilisticGridBlockGenerator(BlockGenerator):
     """Independent Probabilistic Block Generator"""
 
     def __init__(self, dims, probs):
+        validate_probs(probs)
         self.dims = dims
         self.probs = probs
 
