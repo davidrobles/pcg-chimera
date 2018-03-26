@@ -42,10 +42,10 @@ class ProbabilisticGridBlockGenerator(BlockGenerator):
         self.dims = dims
         self.probs = probs
 
-    def get_tile(self):
+    def get_tile(self, probs):
         pick = random.random()
         current = 0
-        for tile, prob in self.probs.items():
+        for tile, prob in probs.items():
             current += prob
             if current > pick:
                 return tile
@@ -63,7 +63,7 @@ class ProbabilisticGridBlockGenerator(BlockGenerator):
                 if is_border(row, col):
                     r.append(block_type.generate_blocking_tile())
                 else:
-                    r.append(self.get_tile())
+                    r.append(self.get_tile(self.probs[block_type]))
             tiles.append(r)
         return Block(block_type=block_type, tiles=tiles)
 
