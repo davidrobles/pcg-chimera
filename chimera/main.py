@@ -1,13 +1,7 @@
 from chimera.block import BlockType
-from chimera.block_generators import RandomGridBlockGenerator, ProbabilisticGridBlockGenerator
+from chimera.block_generators import ProbabilisticGridBlockGenerator
 from chimera.sector_generators import GridSectorGenerator
 from chimera.tile import TileType
-
-
-def run_random_generator():
-    block_generator = RandomGridBlockGenerator((15, 15))
-    sector = GridSectorGenerator(dims=(3, 5), block_generator=block_generator).generate()
-    print(sector)
 
 
 def run_probabilistic_generator():
@@ -40,6 +34,5 @@ def run_empty_grass_generator():
 
 
 if __name__ == '__main__':
-    # run_random_generator()
     run_probabilistic_generator()
     # run_empty_grass_generator()
