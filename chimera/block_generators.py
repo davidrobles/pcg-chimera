@@ -1,3 +1,4 @@
+import random
 from abc import ABC, abstractmethod
 
 from chimera.block import Block
@@ -41,6 +42,14 @@ class ProbabilisticGridBlockGenerator(BlockGenerator):
         self.dims = dims
         self.probs = probs
 
+    def get_tile(self):
+        pick = random.random()
+        current = 0
+        for tile, prob in self.probs.items():
+            current += prob
+            if current > pick:
+                return tile
+
     def generate(self, block_type):
         print('Generating block using RandomGridBlockGenerator...')
         tiles = []
@@ -54,7 +63,7 @@ class ProbabilisticGridBlockGenerator(BlockGenerator):
                 if is_border(row, col):
                     r.append(block_type.generate_blocking_tile())
                 else:
-                    r.append(block_type.generate_tile())
+                    r.append(self.get_tile())
             tiles.append(r)
         return Block(block_type=block_type, tiles=tiles)
 
