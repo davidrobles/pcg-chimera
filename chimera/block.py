@@ -5,8 +5,6 @@ from chimera.tile import TileType
 
 
 class Block:
-    SIZE = (15, 15)  # number of tiles per block
-
     def __init__(self, block_type, tiles):
         self.block_type = block_type
         self.tiles = tiles
