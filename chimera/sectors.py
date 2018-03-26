@@ -1,4 +1,5 @@
 import random
+from abc import ABC, abstractmethod
 
 from enum import Enum
 from chimera.colors import str_aec
@@ -36,6 +37,62 @@ class BlockType(Enum):
         return random.choice([tile for tile in self.tile_whitelist if not tile.walkable])
 
 
+class SectorGenerator(ABC):
+
+    @abstractmethod
+    def generate(self):
+        pass
+
+
+class GridSectorGenerator(ABC):
+
+    def __init__(self, dims, block_generator):
+        self.dims = dims
+        self.block_generator = block_generator
+
+    def generate(self):
+        print('Generating sector using GridSectorGenerator...')
+        blocks = []
+        for row in range(self.dims[0]):
+            r = []
+            for col in range(self.dims[1]):
+                # hacky
+                block_type = random.choice(list(BlockType))
+                r.append(self.block_generator.generate(block_type))
+            blocks.append(r)
+        return Sector(blocks)
+
+
+class BlockGenerator(ABC):
+
+    @abstractmethod
+    def generate(self, block_type):
+        pass
+
+
+class RandomGridBlockGenerator(BlockGenerator):
+
+    def __init__(self, dims):
+        self.dims = dims
+
+    def generate(self, block_type):
+        print('Generating block using RandomGridBlockGenerator...')
+        tiles = []
+
+        def is_border(row, col):
+            return row == 0 or row == self.dims[0] - 1 or col == 0 or col == self.dims[1] - 1
+
+        for row in range(self.dims[0]):
+            r = []
+            for col in range(self.dims[1]):
+                if is_border(row, col):
+                    r.append(block_type.generate_blocking_tile())
+                else:
+                    r.append(block_type.generate_tile())
+            tiles.append(r)
+        return Block(block_type=block_type, tiles=tiles)
+
+
 class Block:
     SIZE = (15, 15)  # number of tiles per block
 
@@ -66,25 +123,6 @@ class Block:
     @property
     def n_cols(self):
         return self.size[1]
-
-    @classmethod
-    def generate(cls):
-        print('Generating random block...')
-        block_type = random.choice(list(BlockType))
-        tiles = []
-
-        def is_border(row, col):
-            return row == 0 or row == cls.SIZE[0] - 1 or col == 0 or col == cls.SIZE[1] - 1
-
-        for row in range(cls.SIZE[0]):
-            r = []
-            for col in range(cls.SIZE[1]):
-                if is_border(row, col):
-                    r.append(block_type.generate_blocking_tile())
-                else:
-                    r.append(block_type.generate_tile())
-            tiles.append(r)
-        return Block(block_type=block_type, tiles=tiles)
 
 
 class Sector:
@@ -118,17 +156,6 @@ class Sector:
     def __str__(self):
         return '\n'.join([self.get_sector_row(sector_row) for sector_row in range(self.n_rows)])
 
-    @classmethod
-    def generate(cls):
-        print('Generating random sector...')
-        blocks = []
-        for row in range(Sector.SIZE[0]):
-            r = []
-            for col in range(Sector.SIZE[1]):
-                r.append(Block.generate())
-            blocks.append(r)
-        return Sector(blocks)
 
-
-sector = Sector.generate()
+sector = GridSectorGenerator(dims=(3, 5), block_generator=RandomGridBlockGenerator((15, 15))).generate()
 print(sector)
