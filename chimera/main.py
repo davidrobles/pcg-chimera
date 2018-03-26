@@ -22,7 +22,7 @@ def run_probabilistic_generator():
         }
     }
     block_generator = ProbabilisticGridBlockGenerator(dims=(15, 15), probs=probs)
-    sector = GridSectorGenerator(dims=(3, 5), block_generator=block_generator).generate()
+    sector = GridSectorGenerator(dims=(2, 3), block_generator=block_generator).generate()
     print(sector)
 
 
